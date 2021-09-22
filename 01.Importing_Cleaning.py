@@ -14,6 +14,8 @@ print(ppri.describe(include='object'))
 print(ppri.info())
 print(ppri.shape)
 
+missing_values = ppri.isnull()
+print(missing_values)
 
 missing_values_count = ppri.isnull().sum()
 print(missing_values_count)
