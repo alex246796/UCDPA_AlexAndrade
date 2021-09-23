@@ -68,21 +68,80 @@ print(ppri6)
 
 
 
-
-
 #Rounding AVERAGE_SALE_PRICE by converting into int
 ppri6['AVERAGE_SALE_PRICE'] = ppri6.AVERAGE_SALE_PRICE.astype(int)
 print(ppri6)
 print(ppri6.info())
+print(ppri6.tail())
 
 
 
 
 
-#Creating chart with matplotlib
+
+#Creating a new columns by adding a list
+COUNTY = ['Ireland', 'Ireland', 'Ireland', 'Ireland', 'Ireland', 'Ireland', 'Ireland', 'Ireland', 'Ireland', 'Ireland']
+
+ppri6['COUNTY'] = COUNTY
+print(ppri6)
+
+
+
+
+#Groupping other counties to compare historical average of country vs lowest and highest prices as at 2020
+ppri8 = (ppri5.groupby(['SALE_YEAR','COUNTY']) .agg(UNITS_SOLD=('SALE_DATE',"count"),AVERAGE_SALE_PRICE=('SALE_PRICE',"mean")).reset_index())
+print(ppri8)
+
+#Rounding AVERAGE_SALE_PRICE by converting into int
+ppri8['AVERAGE_SALE_PRICE'] = ppri8.AVERAGE_SALE_PRICE.astype(int)
+print(ppri8)
+print(ppri8.info())
+print(ppri8.tail())
+
+
+#concatenate all counties data + average of the country
+frames = [ppri6, ppri8]
+
+ppri9 = pd.concat(frames)
+print (ppri9)
+
+
+#Silicing Ireland, and the Max and Min Dublin and Roscommon
+condition = ['Ireland', 'Dublin', 'Roscommon']
+ppri10 = ppri9[ppri9['COUNTY'].isin(condition)]
+print(ppri10)
+
+
+#Sorting
+ppri11 = ppri10.sort_values(by=['COUNTY','SALE_YEAR'])
+print(ppri11)
+print(ppri11.info())
+
+#distributing the data in different datasets
+ppri_Ireland = ppri11[ppri11.COUNTY == 'Ireland']
+print(ppri_Ireland)
+
+ppri_Dublin = ppri11[ppri11.COUNTY == 'Dublin']
+print(ppri_Dublin)
+
+ppri_Roscommon = ppri11[ppri11.COUNTY == 'Roscommon']
+print(ppri_Roscommon)
+
+
+
+
+#Chart
 import matplotlib.pyplot as plt
-ppri6.plot(x="SALE_YEAR", y="AVERAGE_SALE_PRICE", kind="line", rot=45,title='Average price of unit (house) sold in Ireland in the last 10 years')
-plt.xticks(ppri6['SALE_YEAR'])
-plt.xlabel('YEAR')
-plt.ylabel('AVERAGE PRICE')
+fig, ax = plt.subplots()
+ax.plot(ppri_Ireland["SALE_YEAR"], ppri_Ireland["AVERAGE_SALE_PRICE"], color='b')
+ax.set_xlabel("YEARS")
+ax.set_ylabel("AVERAGE PRICE")
+
+ax.plot(ppri_Dublin["SALE_YEAR"], ppri_Dublin["AVERAGE_SALE_PRICE"], linestyle='--', color='r')
+ax.plot(ppri_Roscommon["SALE_YEAR"], ppri_Roscommon["AVERAGE_SALE_PRICE"], linestyle='--', color='g')
+plt.legend(["Ireland", "Dublin", "Roscommon"])
+ax.title.set_text('Average price of houses in the last 10 years')
 plt.show()
+
+
+
