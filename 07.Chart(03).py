@@ -1,4 +1,4 @@
-#>>>>>>>>>>>>>  GO TO ROW 80
+#>>>>>>>>>>>>>  GO TO ROW 93
 
 #import pandas
 import pandas as pd
@@ -89,12 +89,16 @@ print(ppri8)
 print(ppri8.info())
 
 
-#Creating chart with matplotlib
+
+#Chart qty units sold vs average price
 import matplotlib.pyplot as plt
-ppri8.plot(x="COUNTY", y="AVERAGE_SALE_PRICE", kind="scatter", rot=55,title='Average price per county in 2020')
-plt.xticks(ppri6['COUNTY'])
-plt.xlabel('COUNTY')
-plt.ylabel('AVERAGE PRICE')
+fig, ax = plt.subplots()
+ax.plot(ppri8["COUNTY"], ppri8["AVERAGE_SALE_PRICE"],color='blue')
+ax.set_xlabel('COUNTY')
+ax.set_ylabel('AVERAGE PRICE',color='blue')
+ax2 = ax.twinx()
+ax2.plot(ppri8["COUNTY"], ppri8["UNITS_SOLD"],color='red')
+ax2.set_ylabel('TOTAL UNITS SOLD',color='red')
+ax.tick_params(axis='x', labelrotation = 55)
+plt.title('Units (house) sold vs Average price - 2020')
 plt.show()
-
-
