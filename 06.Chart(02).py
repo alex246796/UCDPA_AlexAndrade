@@ -62,9 +62,8 @@ print(ppri5)
 
 
 #Groupping/indexing
-ppri6 = (ppri5.groupby(['SALE_YEAR']) .agg(UNITS_SOLD=('SALE_DATE',"count"),AVERAGE_SALE_PRICE=('SALE_PRICE',"mean")).reset_index())
+ppri6 = (ppri5.groupby(['SALE_YEAR','COUNTY']) .agg(UNITS_SOLD=('SALE_DATE',"count"),AVERAGE_SALE_PRICE=('SALE_PRICE',"mean")).reset_index())
 print(ppri6)
-
 
 
 
@@ -77,3 +76,23 @@ print(ppri6.info())
 
 
 
+
+#Creation of a list to subset a dataframe
+condition = [2020]
+ppri7 = ppri6[ppri6['SALE_YEAR'].isin(condition)]
+print(ppri7)
+
+
+#Sorting
+ppri8 = ppri7.sort_values(by=['AVERAGE_SALE_PRICE'])
+print(ppri8)
+print(ppri8.info())
+
+
+#Creating chart with matplotlib
+import matplotlib.pyplot as plt
+ppri8.plot(x="COUNTY", y="AVERAGE_SALE_PRICE", kind="scatter", rot=55,title='Average price per county in 2020')
+plt.xticks(ppri6['COUNTY'])
+plt.xlabel('COUNTY')
+plt.ylabel('AVERAGE PRICE')
+plt.show()
