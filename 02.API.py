@@ -9,5 +9,10 @@ AverageWeeklyRent2 = AverageWeeklyRent.json()
 print(AverageWeeklyRent2)
 print (type(AverageWeeklyRent2))
 
+import pandas as pd
+
+AverageWeeklyRent3 = pd.DataFrame (AverageWeeklyRent2)
+
+print(AverageWeeklyRent3)
 
 
