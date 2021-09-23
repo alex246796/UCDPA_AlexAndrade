@@ -1,4 +1,4 @@
-#>>>>>>>>>>>>>  GO TO ROW 64
+#>>>>>>>>>>>>>  GO TO ROW 81
 
 #import pandas
 import pandas as pd
@@ -62,17 +62,25 @@ print(ppri5)
 
 
 #Groupping/indexing
-ppri6 = (ppri5.groupby(['SALE_YEAR','COUNTY']) .agg(UNITS_SOLD=('SALE_DATE',"count"),AVERAGE_SALE_PRICE=('SALE_PRICE',"mean")))
+ppri6 = (ppri5.groupby(['SALE_YEAR']) .agg(UNITS_SOLD=('SALE_DATE',"count"),AVERAGE_SALE_PRICE=('SALE_PRICE',"mean")).reset_index())
 print(ppri6)
 
 
-#Sorting
-ppri7 = (ppri6.sort_index(level=["SALE_YEAR","COUNTY"], ascending=[True, True]))
-print(ppri7)
-print(ppri7.info())
+
+
 
 
 #Rounding AVERAGE_SALE_PRICE by converting into int
-ppri7['AVERAGE_SALE_PRICE'] = ppri7.AVERAGE_SALE_PRICE.astype(int)
-print(ppri7)
-print(ppri7.info())
+ppri6['AVERAGE_SALE_PRICE'] = ppri6.AVERAGE_SALE_PRICE.astype(int)
+print(ppri6)
+print(ppri6.info())
+
+
+
+#Creating chart with matplotlib
+import matplotlib.pyplot as plt
+ppri6.plot(x="SALE_YEAR", y="AVERAGE_SALE_PRICE", kind="line", rot=45,title='Average price of unit (house) sold in Ireland in the last 10 years')
+plt.xticks(ppri6['SALE_YEAR'])
+plt.xlabel('YEAR')
+plt.ylabel('AVERAGE PRICE')
+plt.show()
