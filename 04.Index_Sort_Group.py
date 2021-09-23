@@ -1,3 +1,5 @@
+#>>>>>>>>>>>>>  GO TO ROW 64
+
 #import pandas
 import pandas as pd
 
@@ -56,3 +58,13 @@ end_date = '31-12-2020'
 filter = (ppri4['SALE_DATE'] >= start_date) & (ppri4['SALE_DATE'] <= end_date)
 ppri5 = ppri4.loc[filter]
 print(ppri5)
+
+
+
+#Groupping/indexing
+ppri6 = (ppri5.groupby(['SALE_YEAR','COUNTY']) .agg(UNITS_SOLD=('SALE_DATE',"count"),AVERAGE_SALE_PRICE=('SALE_PRICE',"mean")))
+print(ppri6)
+
+
+#Sorting
+
