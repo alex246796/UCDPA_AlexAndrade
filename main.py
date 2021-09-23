@@ -21,8 +21,3 @@ if __name__ == '__main__':
 
 
 
-import pandas as pd
-
-AverageWeeklyRent3 = pd.DataFrame (AverageWeeklyRent2)
-
-print(AverageWeeklyRent3)
