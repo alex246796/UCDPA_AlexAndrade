@@ -15,5 +15,3 @@ AverageWeeklyRent3 = pd.DataFrame (AverageWeeklyRent2)
 
 print(AverageWeeklyRent3)
 
-
-print(AverageWeeklyRent2['index'])
